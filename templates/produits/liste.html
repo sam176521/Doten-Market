@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-head">
+    <div>
+        <h1>Produits</h1>
+        <p class="muted">Decouvre les offres disponibles et compare les vendeurs.</p>
+    </div>
+</section>
+<div class="search-box">
+    <form action="/produits/" method="GET" class="form-search">
+
+        <input
+            type="text"
+            name="q"
+            placeholder="Rechercher..."
+        >
+
+        <button type="submit">
+            🔍
+        </button>
+
+    </form>
+</div>
+
+
+<div class="product-grid">
+    {% for produit in produits %}
+    <article class="product-card">
+        <a href="/produits/{{ produit.id }}/">
+            {% if produit.image %}
+                <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+            {% endif %}
+            <div class="badge-row">
+                <span class="trust-pill">{{ produit.score_credibilite }}% authentique</span>
+                {% if produit.categorie %}<span class="badge">{{ produit.categorie.nom }}</span>{% endif %}
+            </div>
+            <h3>{{ produit.nom }}</h3>
+            
+            <div class="card_down">
+                <p class="price">{{ produit.prix }} FC</p>
+                <a href="{% url 'ajouter_panier' produit.id %}" class="add-btn">🛒</a>
+            </div>
+            <div class="card_down">
+                <p class="plus"><a href="/produits/{{ produit.id }}/">Plus de détail</a></p>
+                <p class="muted">{{ produit.boutique.nom }}</p>
+            </div>
+        </a>
+    </article>
+    {% empty %}
+    <p class="muted">Aucun produit disponible.</p>
+    {% endfor %}
+
+</div>
+
+<div class="pagination">
+
+    {% if produits.has_previous %}
+
+    <a href="?page={{ produits.previous_page_number }}">
+        ←
+    </a>
+
+    {% endif %}
+
+    <span>
+
+    Page
+
+    {{ produits.number }}
+
+    sur
+
+    {{ produits.paginator.num_pages }}
+
+    </span>
+
+    {% if produits.has_next %}
+
+    <a href="?page={{ produits.next_page_number }}">
+        →
+    </a>
+
+    {% endif %}
+
+</div>
+{% endblock %}

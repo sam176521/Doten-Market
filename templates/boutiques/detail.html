@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="detail-layout">
+    <div class="detail-media">
+        {% if boutique.logo %}
+            <img src="{{ boutique.logo.url }}" alt="{{ boutique.nom }}">
+        {% endif %}
+    </div>
+
+    <div class="detail-panel">
+        <div class="badge-row">
+            <span class="rating-pill">{{ moyenne|default:"0"|floatformat:1 }}/5</span>
+            <span class="badge">{{ boutique.nombre_avis }} avis</span>
+        </div>
+        <h1>{{ boutique.nom }}</h1>
+        <p class="muted">{{ boutique.description }}</p>
+        <div class="detail-actions">
+            <a href="{% url 'ajouter_avis_boutique' boutique.id %}" class="secondary-btn">Donner un avis</a>
+            <a href="{% url 'profil_vendeur' boutique.proprietaire.id %}" class="link">Voir le vendeur</a>
+        </div>
+    </div>
+</section>
+
+<section class="sections">
+    <div>
+        <div class="page-head">
+            <h2>Produits de la boutique</h2>
+        </div>
+        <div class="product-grid">
+            {% for produit in produits %}
+            <article class="product-card">
+                <a href="/produits/{{ produit.id }}/">
+                {% if produit.image %}
+                    <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+                {% endif %}
+                <div class="badge-row">
+                    <span class="trust-pill">{{ produit.score_credibilite }}% authentique</span>
+                    <span class="badge">{{ produit.get_etat_display }}</span>
+                </div>
+                <h3>{{ produit.nom }}</h3>
+                <p class="price">{{ produit.prix }} FC</p>
+                <a href="/produits/{{ produit.id }}/" class="plus">Plus de détail</a>
+                </a>
+            </article>
+            {% empty %}
+            <p class="muted">Aucun produit disponible.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div>
+        <div class="page-head">
+            <h2>Avis utilisateurs</h2>
+        </div>
+        <div class="grid">
+            {% for avis in boutique.avis_boutique.all %}
+            <article class="review-card">
+                <div class="badge-row">
+                    <span class="rating-pill">{{ avis.note }}/5</span>
+                    <span class="badge">{{ avis.utilisateur.username }}</span>
+                </div>
+                <p>{{ avis.commentaire }}</p>
+            </article>
+            {% empty %}
+            <p class="muted">Aucun avis.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

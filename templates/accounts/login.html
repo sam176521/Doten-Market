@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="modal-page">
+    <section class="modal-card">
+        <h1>Connexion</h1>
+        <form method="POST">
+            {% csrf_token %}
+
+            <p>
+                <label for="username">Nom utilisateur</label>
+                <input id="username" type="text" name="username" autocomplete="username" required>
+            </p>
+
+            <p>
+                <label for="password">Mot de passe</label>
+                <input id="password" type="password" name="password" autocomplete="current-password" required>
+            </p>
+
+            <button type="submit">Se connecter</button>
+        </form>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Comparateur de produits</h1>
+<div class="search-box">
+    <form method="GET" class="form-search">
+    <input type="text" name="q" placeholder="Rechercher un produit">
+    <button>Comparer</button>
+</form>
+</div>
+
+
+<div class="grid">
+
+    {% for produit in produits %}
+    <div class="card">
+        <img src="{{ produit.image.url }}"
+        alt="{{ produit.nom }}"
+        width="200">
+        <h3>{{ produit.nom }}</h3>
+        <p>{{ produit.prix }} $</p>
+
+        <a href="/produits/{{ produit.id }}/">
+            Voir produit
+        </a>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="dashboard-hero">
+    <div>
+        <p class="muted">Espace vendeur</p>
+        <h1>{{ boutique.nom }}</h1>
+        <div class="badge-row">
+            <span class="rating-pill">{{ note_boutique|floatformat:1 }}/5</span>
+            <span class="badge">{{ total_produits }} produits</span>
+            <span class="badge">{{ stock_total }} en stock</span>
+        </div>
+    </div>
+    <div>
+        <a href="/produits/ajouter/" class="secondary-btn">Ajouter un produit</a>
+
+        <a href="{% url 'commandes_boutique' %}"class="primary-btn">Commandes</a>
+
+    </div>
+    </section>
+
+{% if not profil.telephone or not profil.ville %}
+    <p class="alert">Complete ton profil vendeur pour rendre ta boutique plus credible.</p>
+{% endif %}
+
+<section class="dashboard-grid">
+    <div class="metric-card">
+        <span>Produits</span>
+        <strong>{{ total_produits }}</strong>
+    </div>
+    <div class="metric-card">
+        <span>Stock total</span>
+        <strong>{{ stock_total }}</strong>
+    </div>
+    <div class="metric-card">
+        <span>Note boutique</span>
+        <strong>{{ note_boutique|floatformat:1 }}/5</strong>
+    </div>
+    <div class="metric-card">
+        <span>Profil</span>
+        <strong>{% if profil.telephone and profil.ville %}Pret{% else %}A completer{% endif %}</strong>
+    </div>
+</section>
+
+<section class="dashboard-grid">
+
+    <div class="metric-card">
+        <span>Commandes</span>
+        <strong>{{ nombre_ventes }}</strong>
+    </div>
+
+
+    <div class="metric-card">
+        <span>Chiffre d'affaires</span>
+        <strong>{{ chiffre_affaires }} FC</strong>
+    </div>
+
+
+    <div class="metric-card">
+        <span>Produits vendus</span>
+        <strong>{{ quantite_vendue }}</strong>
+    </div>
+
+
+    <div class="metric-card">
+        <span>Stock total</span>
+        <strong>{{ stock_total }}</strong>
+    </div>
+</section>
+
+<section class="dashboard-grid">
+
+    <div class="metric-card">
+        <span>En attente</span>
+        <strong>{{ commandes_attente }}</strong>
+    </div>
+
+    <div class="metric-card">
+        <span>Confirmées</span>
+        <strong>{{ commandes_confirmees }}</strong>
+    </div>
+
+    <div class="metric-card">
+        <span>Préparées</span>
+        <strong>{{ commandes_preparees }}</strong>
+    </div>
+
+    <div class="metric-card">
+        <span>Livrées</span>
+        <strong>{{ commandes_livrees }}</strong>
+    </div>
+
+</section>
+
+<section class="dashboard-panel">
+
+<h2>Analyse commerciale</h2>
+
+
+{% if produit_plus_vendu %}
+
+<p>
+🏆 Produit le plus vendu :
+<strong>
+{{ produit_plus_vendu.produit__nom }}
+</strong>
+</p>
+
+
+<p>
+Quantité vendue :
+<strong>
+{{ produit_plus_vendu.total }}
+</strong>
+</p>
+
+
+{% else %}
+
+<p class="muted">
+Pas encore assez de données pour analyser les ventes.
+</p>
+
+{% endif %}
+
+</section>
+
+<section class="dashboard-panel">
+
+<h2>Alertes stock</h2>
+
+{% for produit in produits_rupture %}
+
+<div class="alert">
+⚠ {{ produit.nom }}
+
+Stock restant :
+<strong>{{ produit.stock }}</strong>
+
+</div>
+
+
+{% empty %}
+
+<p class="muted">
+Aucun produit nécessitant un réapprovisionnement.
+</p>
+
+{% endfor %}
+
+</section>
+
+<section class="dashboard-panel">
+
+<h2>Dernières ventes</h2>
+
+
+{% for vente in dernieres_ventes %}
+
+<div class="sale-row">
+
+<strong>
+{{ vente.produit.nom }}
+</strong>
+
+<span>
+x{{ vente.quantite }}
+</span>
+
+<span>
+{{ vente.montant_total }} FC
+</span>
+
+</div>
+
+
+{% empty %}
+
+<p class="muted">
+Aucune vente enregistrée.
+</p>
+
+{% endfor %}
+
+</section>
+
+
+
+<section class="dashboard-panel">
+    <div class="page-head">
+        <div>
+            <h2>Mes produits</h2>
+            <p class="muted">Les fiches completes inspirent plus confiance aux acheteurs.</p>
+        </div>
+        <a href="{% url 'mon_profil' %}" class="link">Profil vendeur</a>
+    </div>
+
+    <div class="product-grid">
+        {% for produit in produits %}
+        <article class="product-card">
+            {% if produit.image %}
+                <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+            {% endif %}
+            <div class="badge-row">
+                <span class="trust-pill">{{ produit.score_credibilite }}% authentique</span>
+                {% if produit.categorie %}<span class="badge">{{ produit.categorie.nom }}</span>{% endif %}
+            </div>
+            <h3>{{ produit.nom }}</h3>
+            <p class="price">{{ produit.prix }} FC</p>
+            <p class="muted">Stock : {{ produit.stock }} - Etat : {{ produit.get_etat_display }}</p>
+            <div class="card-actions">
+                <a href="{% url 'modifier_produit' produit.id %}" class="link">Modifier</a>
+                <a href="{% url 'supprimer_produit' produit.id %}" class="link">Supprimer</a>
+            </div>
+        </article>
+        {% empty %}
+        <p class="muted">Aucun produit pour le moment.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="dashboard-panel">
+
+    <h2>Evolution du chiffre d'affaires</h2>
+
+    <canvas
+        id="ventesChart"
+        data-labels='{{ mois_labels|safe }}'
+        data-values='{{ revenus_data|safe }}'>
+    </canvas>
+
+</section>
+
+<section class="dashboard-panel">
+
+    <h2>Produits les plus vendus</h2>
+
+    <canvas
+    id="produitsChart"
+    data-labels='{{ produits_labels }}'
+    data-values='{{ produits_quantites }}'>
+    </canvas>
+
+</section>
+
+<section class="dashboard-panel">
+
+    <h2>Etat du stock</h2>
+
+    <canvas
+    id="stockChart"
+    data-labels='{{ stock_labels }}'
+    data-values='{{ stock_values }}'>
+    </canvas>
+
+</section>
+
+{% endblock %}

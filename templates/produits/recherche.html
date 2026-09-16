@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-head">
+    <div>
+        <h1>Resultats : {{ query }}</h1>
+        <p class="muted">Produits correspondant a ta recherche.</p>
+    </div>
+</section>
+
+<div class="product-grid">
+    {% for produit in produits %}
+    <article class="product-card">
+        {% if produit.image %}
+            <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+        {% endif %}
+        <div class="badge-row">
+            <span class="trust-pill">{{ produit.score_credibilite }}% confiance</span>
+        </div>
+        <h3>{{ produit.nom }}</h3>
+        <p class="price">{{ produit.prix }} FC</p>
+        <a href="{% url 'detail_produit' produit.id %}" class="link">Voir produit</a>
+    </article>
+    {% empty %}
+    <p class="muted">Aucun produit trouve.</p>
+    {% endfor %}
+</div>
+{% endblock %}

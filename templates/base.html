@@ -1,0 +1,146 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doten Market</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+<header class="navbar" id="header">
+    <div class="logo">
+        <h2>Doten Market</h2>
+    </div>
+
+    <nav class="nav-links" id="navLinks">
+
+        <a href="/" class="a" >
+            <i class="fa-solid fa-house"></i>
+            Accueil
+        </a>
+
+        <a href="/boutiques/" class="a">
+            <i class="fa-solid fa-store"></i>
+            Boutiques
+        </a>
+
+        <a href="/produits/" class="a">
+            <i class="fa-solid fa-box"></i>
+            Produits
+        </a>
+
+        <a href="/comparateur/" class="a">
+            <i class="fa-solid fa-scale-balanced"></i>
+            Comparer
+        </a>
+
+        {% if user.is_authenticated %}
+
+            <a href="{% url 'voir_panier' %}" class="a">
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                Panier
+
+                {% if panier_count > 0 %}
+                    <span class="cart-badge">
+                        {{ panier_count }}
+                    </span>
+                {% endif %}
+            </a>
+
+            <a href="{% url 'mes_commandes' %}" class="a">
+                <i class="fa-solid fa-receipt"></i>
+                Commandes
+            </a>
+
+            <a href="{% url 'mes_notifications' %}">
+                🔔
+                <span class="badge-counter">
+                    {{ notifications_non_lues }}
+                </span>
+            </a>
+
+        {% endif %}
+
+    </nav>
+
+    <div class="bouton_con_log">
+        {% if user.is_authenticated %}
+            
+            {% if user.type_user == "vendeur" %}
+            <a href="/dashboard/" class="link_connexion">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </a>
+        
+            <a href="{% url 'mes_ventes' %}" class="link_connexion">
+                <i class="fa-solid fa-money-bill-trend-up"></i>
+                Ventes
+            </a>
+            {% endif %}
+
+            <a href="/accounts/logout/" class="link_connexion">→]</a>
+        {% else %}
+            <a href="/accounts/login/" class="link_connexion">Connexion</a>
+            <a href="/accounts/register/" class="link_connexion">Inscription</a>
+        {% endif %}
+    </div>
+</header>
+
+<main class="container">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="alert">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
+    {% if breadcrumb %}
+
+    <nav class="breadcrumb">
+
+        {% for nom, lien in breadcrumb %}
+
+            {% if lien %}
+
+                <a href="{{ lien }}">
+                    {{ nom }}
+                </a>
+
+            {% else %}
+
+                <span>
+                    {{ nom }}
+                </span>
+
+            {% endif %}
+
+            {% if not forloop.last %}
+                >
+            {% endif %}
+
+        {% endfor %}
+
+    </nav>
+
+    {% endif %}
+
+
+    {% block content %}
+    {% endblock %}
+</main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

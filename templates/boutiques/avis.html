@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="modal-page">
+    <section class="modal-card">
+        <h1>Noter {{ boutique.nom }}</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Envoyer avis</button>
+        </form>
+    </section>
+</div>
+{% endblock %}

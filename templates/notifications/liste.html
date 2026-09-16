@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="page-head">
+    <div>
+        <h1>Notifications</h1>
+        <p class="muted">
+            Toutes vos notifications.
+        </p>
+    </div>
+</section>
+
+<section class="dashboard-panel">
+
+    {% for notification in notifications %}
+
+        <div class="metric-card">
+
+            <h3>
+                {{ notification.titre }}
+            </h3>
+
+            <p>
+                {{ notification.message }}
+            </p>
+
+            <small>
+                {{ notification.date_creation }}
+            </small>
+
+        </div>
+
+    {% empty %}
+
+        <p class="muted">
+            Aucune notification.
+        </p>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

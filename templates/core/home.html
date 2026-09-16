@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1>Compare les prix. Choisis les vendeurs les plus credibles.</h1>
+        <p>Doten Market regroupe les boutiques, les avis et les details produit pour acheter plus vite et plus intelligemment.</p>
+        <div class="hero-buttons">
+            <a href="/produits/" class="primary-btn">Explorer les produits</a>
+            {% if user.is_authenticated and user.type_user == "vendeur" %}
+                <a href="/boutiques/creer/" class="secondary-btn">Creer ma boutique</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="sections mt-section">
+    <div>
+        <div class="page-head">
+            <div>
+                <h2>Categories populaires</h2>
+                <p class="muted">Parcours les rayons actifs de la marketplace.</p>
+            </div>
+        </div>
+        <div class="category-grid">
+            {% for categorie in categories %}
+            <article class="category-card">
+                <a href="/produits/categorie/{{ categorie.id }}/">
+                {% if categorie.image %}
+                    <img src="{{ categorie.image.url }}" alt="{{ categorie.nom }}">
+                {% endif %}
+                <h3>{{ categorie.nom }}</h3>
+                <p class="plus">AVOIR UNE LISTE DEFILLANTE</p>
+                </a>
+            </article>
+            {% empty %}
+            <p class="muted">Aucune categorie disponible.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+<!--<div>
+        <div class="page-head">
+            <div>
+                <h2>Boutiques populaires</h2>
+                <p class="muted">Des vendeurs a consulter avec avis et profil.</p>
+            </div>
+        </div>
+        <div class="shop-grid">
+            {% for boutique in boutiques %}
+            <article class="shop-card">
+                <a href="/boutiques/{{ boutique.id }}/">
+                {% if boutique.logo %}
+                    <img src="{{ boutique.logo.url }}" alt="{{ boutique.nom }}">
+                {% endif %}
+                <div class="badge-row">
+                    <span class="rating-pill">{{ boutique.note_moyenne|floatformat:1 }}/5</span>
+                    <span class="badge">{{ boutique.nombre_avis }} avis</span>
+                </div>
+                <h3>{{ boutique.nom }}</h3>
+                <p class="muted">{{ boutique.description|truncatewords:14 }}</p>
+                <p class="plus">Plus de détail</p>
+                </a>
+            </article>
+            {% empty %}
+            <p class="muted">Aucune boutique disponible.</p>
+            {% endfor %}
+        </div>
+    </div>-->
+
+    <div>
+        <div class="page-head">
+            <div>
+                <h2>Produits recents</h2>
+            </div>
+            <a href="/comparateur/" class="link">Comparer</a>
+        </div>
+        <div class="product-grid">
+            {% for produit in produits %}
+            <article class="product-card">
+                <a href="/produits/{{ produit.id }}/">
+                {% if produit.image %}
+                    <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+                {% endif %}
+                <div class="badge-row">
+                    <span class="trust-pill">{{ produit.score_credibilite }}% authentique</span>
+                    <span class="badge">{{ produit.get_etat_display }}</span>
+                </div>
+            
+                <h3>{{ produit.nom }}</h3>
+                   
+                <div class="card_down">
+                    <p class="price">{{ produit.prix }} FC</p>
+                    
+                    <a href="{% url 'ajouter_panier' produit.id %}" class="add-btn">🛒</a>
+                </div>
+            
+                <div class="card_down">
+                    <p class="plus"><a href="/produits/{{ produit.id }}/">Plus de détail</a></p>
+                    <p class="muted">{{ produit.boutique.nom }}</p>
+                </div>
+                
+                </a>
+            </article>
+            {% empty %}
+            <p class="muted">Aucun produit recent.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<footer>
+
+        <h3>Doten Market</h3>
+
+        <p>
+            Marketplace moderne de comparaison de prix et boutiques.
+        </p>
+
+    </footer>
+{% endblock %}

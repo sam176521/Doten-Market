@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="page-head">
+    <div>
+        <h1>Comparateur de produits</h1>
+        <p class="muted">
+            Comparez les prix, la crédibilité et les vendeurs avant d'acheter.
+        </p>
+    </div>
+</section>
+
+<div class="search-box">
+    <form method="GET" class="form-search">
+        <input
+            type="text"
+            name="q"
+            value="{{ query|default:'' }}"
+            placeholder="Rechercher un produit">
+        <button type="submit">
+            Comparer
+        </button>
+    </form>
+</div>
+
+<div class="sections mt-section">
+
+
+{% for groupe in groupes %}
+
+<section class="dashboard-panel">
+
+    <div class="page-head">
+
+        <div>
+            <h2>{{ groupe.0.nom }}</h2>
+
+            <p class="muted">
+                {{ groupe|length }} offre(s) disponible(s)
+            </p>
+        </div>
+
+        <span class="badge">
+            À partir de {{ groupe.0.prix }} FC
+        </span>
+
+    </div>
+
+    <div class="product-grid">
+
+        {% for produit in groupe %}
+        
+                
+
+        <article class="product-card">
+            <a href="/produits/{{ produit.id }}/">
+            {% if produit.image %}
+                <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+            {% endif %}
+
+            <div class="badge-row">
+
+                <span class="badge">
+                    {{ produit.boutique.nom }}
+                </span>
+
+                <span class="trust-pill">
+                    {{ produit.score_credibilite }}% authentique
+                </span>
+
+            </div>
+
+            <h3>{{ produit.nom }}</h3>
+
+            
+
+            <p class="muted">
+                {{ produit.get_etat_display }}
+            </p>
+
+            <div class="card_down">
+                <p class="price">
+                    {{ produit.prix }} FC
+                </p>
+                <a href="{% url 'ajouter_panier' produit.id %}" class="add-btn">
+                    🛒
+                </a>
+
+            </div>
+            </a>
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% empty %}
+
+<section class="dashboard-panel">
+
+    <p class="muted">
+        Aucun produit trouvé.
+    </p>
+
+</section>
+
+{% endfor %}
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="page-head">
+    <div>
+        <h1>Commande #{{ commande.id }}</h1>
+        <p class="muted">Suivi et détails de votre commande.</p>
+    </div>
+</section>
+
+<section class="dashboard-panel">
+
+
+<div class="badge-row">
+    <span class="badge">
+        Statut : {{ commande.get_statut_display }}
+    </span>
+
+    <span class="rating-pill">
+        {{ commande.montant_total }} FC
+    </span>
+</div>
+
+<h2>Produits commandés</h2>
+
+<div class="product-grid">
+
+    {% for ligne in commande.lignes.all %}
+
+    <article class="product-card">
+
+        {% if ligne.produit.image %}
+            <img src="{{ ligne.produit.image.url }}" alt="{{ ligne.produit.nom }}">
+        {% endif %}
+
+        <h3>{{ ligne.produit.nom }}</h3>
+
+        <p class="muted">
+            Quantité : {{ ligne.quantite }}
+        </p>
+
+        <p class="price">
+            {{ ligne.sous_total }} FC
+        </p>
+
+        <p class="muted">
+            Prix unitaire : {{ ligne.prix_unitaire }} FC
+        </p>
+
+    </article>
+
+    {% endfor %}
+
+</div>
+
+
+</section>
+
+{% endblock %}

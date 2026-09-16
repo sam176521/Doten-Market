@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="detail-layout">
+    <div class="detail-medias">
+        {% if profil and profil.photo %}
+            <img src="{{ profil.photo.url }}" alt="{{ vendeur.username }}">
+        {% endif %}
+    </div>
+
+    <div class="detail-panel">
+        <div class="badge-row">
+            <span class="badge">{{ nombre_produits }} produits</span>
+            {% if profil and profil.ville %}<span class="badge">{{ profil.ville }}</span>{% endif %}
+        </div>
+        <h1>{{ vendeur.username }}</h1>
+        {% if profil %}
+            <div class="detail-list">
+                <div class="detail-item"><span>Telephone</span><strong>{{ profil.telephone|default:"Non precise" }}</strong></div>
+                <div class="detail-item"><span>WhatsApp</span><strong>{{ profil.whatsapp|default:"Non precise" }}</strong></div>
+                <div class="detail-item"><span>Adresse</span><strong>{{ profil.adresse|default:"Non precisee" }}</strong></div>
+            </div>
+            {% if profil.whatsapp %}
+                <a href="https://wa.me/{{ profil.whatsapp }}" target="_blank" rel="noopener" class="secondary-btn">Contacter sur WhatsApp</a>
+            {% endif %}
+        {% else %}
+            <p class="muted">Profil incomplet</p>
+        {% endif %}
+    </div>
+</section>
+
+<section class="sections">
+    <div class="dashboard-panel">
+        <h2>Boutique</h2>
+        {% if boutique %}
+            <h3>{{ boutique.nom }}</h3>
+            <p class="muted">{{ boutique.description }}</p>
+        {% else %}
+            <p class="muted">Aucune boutique</p>
+        {% endif %}
+    </div>
+
+    <div>
+        <div class="page-head">
+            <h2>Produits</h2>
+        </div>
+        <div class="product-grid">
+            {% for produit in produits %}
+            <article class="product-card">
+                {% if produit.image %}<img src="{{ produit.image.url }}" alt="{{ produit.nom }}">{% endif %}
+                <div class="badge-row">
+                    <span class="trust-pill">{{ produit.score_credibilite }}% confiance</span>
+                </div>
+                <h3>{{ produit.nom }}</h3>
+                <p class="price">{{ produit.prix }} FC</p>
+                <a href="{% url 'detail_produit' produit.id %}" class="link">Voir produit</a>
+            </article>
+            {% empty %}
+            <p class="muted">Aucun produit</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

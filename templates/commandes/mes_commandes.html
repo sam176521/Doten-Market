@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="page-head">
+    <div>
+        <h1>Mes commandes</h1>
+        <p class="muted">
+            Retrouvez toutes vos commandes.
+        </p>
+    </div>
+</section>
+
+<div class="product-grid">
+
+    {% for commande in commandes %}
+
+    <article class="product-card">
+
+        <h3>
+            Commande #{{ commande.id }}
+        </h3>
+
+        <p class="muted">
+            {{ commande.date_commande|date:"d/m/Y" }}
+        </p>
+
+        <div class="badge-row">
+            <span class="badge">
+                {{ commande.get_statut_display }}
+            </span>
+        </div>
+
+        <p class="price">
+            {{ commande.montant_total }} FC
+        </p>
+
+        <a href="{% url 'detail_commande' commande.id %}" class="link">
+            Voir détails
+        </a>
+
+    </article>
+
+    {% empty %}
+
+    <p class="muted">
+        Aucune commande.
+    </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

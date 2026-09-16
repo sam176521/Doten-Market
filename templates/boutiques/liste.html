@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-head">
+    <div>
+        <h1>Boutiques</h1>
+        <p class="muted">Des vendeurs avec avis, produits et profils consultables.</p>
+    </div>
+</section>
+
+<div class="grid">
+    {% for boutique in boutiques %}
+    <a href="/boutiques/{{ boutique.id }}/">
+    <article class="card">
+        {% if boutique.logo %}
+            <img src="{{ boutique.logo.url }}" alt="{{ boutique.nom }}">
+        {% endif %}
+        <div class="badge-row">
+            <span class="rating-pill">{{ boutique.note_moyenne|floatformat:1 }}/5</span>
+            <span class="badge">{{ boutique.nombre_avis }} avis</span>
+        </div>
+        <h3>{{ boutique.nom }}</h3>
+        <p class="muted">{{ boutique.description|truncatewords:18 }}</p>
+        <p class="plus">Plus de détail</p>
+    </article>
+    </a>
+    {% empty %}
+    <p class="muted">Aucune boutique disponible.</p>
+    {% endfor %}
+    
+</div>
+
+<div class="pagination">
+
+    {% if boutiques.has_previous %}
+
+    <a href="?page={{ boutiques.previous_page_number }}">
+        ←
+    </a>
+
+    {% endif %}
+
+    <span>
+
+    Page
+
+    {{ boutiques.number }}
+
+    sur
+
+    {{ boutiques.paginator.num_pages }}
+
+    </span>
+
+    {% if boutiques.has_next %}
+
+    <a href="?page={{ boutiques.next_page_number }}">
+        →
+    </a>
+
+    {% endif %}
+
+</div>
+{% endblock %}

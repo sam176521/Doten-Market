@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="page-head">
+    <div>
+        <h1>Commandes reçues</h1>
+        <p class="muted">
+            Toutes les commandes contenant vos produits.
+        </p>
+    </div>
+</section>
+
+<section class="dashboard-panel">
+
+<table class="custom-table">
+
+    <tr>
+        <th>ID</th>
+        <th>Client</th>
+        <th>Total</th>
+        <th>Statut</th>
+        <th>Date</th>
+        <th></th>
+    </tr>
+
+    {% for commande in commandes %}
+
+    <tr>
+
+        <td>#{{ commande.id }} |</td>
+
+        <td>
+            {{ commande.client.username }} |
+        </td>
+
+        <td>
+            {{ commande.montant_total }} $ |
+        </td>
+
+        <td>
+            {{ commande.get_statut_display }} |
+        </td>
+
+        <td>
+            {{ commande.date_commande }} |
+        </td>
+
+        <td>
+            <a href="{% url 'detail_commande_vendeur' commande.id %}" class="secondary-btn">
+                Voir
+            </a>
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+
+</section>
+
+{% endblock %}

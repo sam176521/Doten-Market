@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="modal-page">
+    <section class="modal-card">
+        <h1>Creer ma boutique</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Creer boutique</button>
+        </form>
+    </section>
+</div>
+{% endblock %}

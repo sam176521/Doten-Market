@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="page-head">
+    <div>
+        <h1>Mon panier</h1>
+        <p class="muted">
+            Vérifiez vos articles avant de passer commande.
+        </p>
+    </div>
+</section>
+
+<section class="dashboard-panel">
+
+
+<div class="product-grid">
+
+    {% for ligne in panier.lignes.all %}
+
+    <article class="product-card">
+
+        {% if ligne.produit.image %}
+            <img src="{{ ligne.produit.image.url }}" alt="{{ ligne.produit.nom }}">
+        {% endif %}
+
+        <h3>{{ ligne.produit.nom }}</h3>
+
+        <p class="muted">
+            Quantité : {{ ligne.quantite }}
+        </p>
+
+        <p class="muted">
+            Prix unitaire : {{  ligne.produit.prix  }} FC
+        </p>
+
+        <p class="price">
+            {{ ligne.sous_total }} FC
+        </p>
+
+
+        <div class="quantity-controls">
+
+            <a href="{% url 'diminuer_quantite' ligne.id %}" class="link">
+                -
+            </a>
+
+            <span>
+                {{ ligne.quantite }}
+            </span>
+
+            <a href="{% url 'augmenter_quantite' ligne.id %}" class="link">
+                +
+            </a>
+
+        </div>
+
+        <a
+        href="{% url 'supprimer_ligne' ligne.id %}"
+        class="link danger">
+
+            Supprimer
+
+        </a>
+
+    </article>
+
+    {% empty %}
+
+    <p class="muted">
+        Votre panier est vide.
+    </p>
+
+    {% endfor %}
+
+</div>
+
+
+
+<div class="page-head" style="margin-top:20px;">
+    <div>
+        <h2>Total : {{ total }} $</h2>
+    </div>
+
+    {% if panier.lignes.all %}
+    <a href="{% url 'passer_commande' %}" class="secondary-btn">
+        Commander maintenant
+    </a>
+    {% endif %}
+</div>
+
+
+</section>
+
+{% endblock %}

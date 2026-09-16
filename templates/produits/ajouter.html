@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="modal-page">
+    <section class="modal-card">
+        <h1>Ajouter un produit</h1>
+        <p class="muted">Ajoute des precisions utiles pour renforcer la confiance des acheteurs.</p>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Ajouter</button>
+        </form>
+    </section>
+</div>
+{% endblock %}

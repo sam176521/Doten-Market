@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3>Modifier le statut</h3>
+
+
+
+<a href="{% url 'modifier_statut_commande' commande.id 'preparee' %}" class="primary-btn">
+    Préparer
+</a>
+
+<a href="{% url 'modifier_statut_commande' commande.id 'livree' %}" class="primary-btn">
+    Livrer
+</a>
+
+<a href="{% url 'modifier_statut_commande' commande.id 'annulee' %}" class="primary-btn">
+    Annuler
+</a>
+
+<h3>Informations de paiement</h3>
+
+{% if paiement %}
+
+<p>
+    Statut :
+    {{ paiement.get_statut_display }}
+</p>
+
+<p>
+    Méthode :
+    {{ paiement.get_methode_display }}
+</p>
+
+<p>
+    Numéro :
+    {{ paiement.numero_telephone }}
+</p>
+
+<p>
+    Référence :
+    {{ paiement.reference_transaction }}
+</p>
+
+<p>
+    Date :
+    {{ paiement.date_paiement }}
+</p>
+
+{% else %}
+
+<p>
+    Aucun paiement enregistré.
+</p>
+
+{% endif %}
+
+<h3>Produits commandés</h3>
+
+<table class="custom-table">
+
+    <tr>
+        <th>Produit</th>
+        <th>Quantité</th>
+        <th>Prix</th>
+        <th>Sous-total</th>
+    </tr>
+
+    {% for ligne in commande.lignes.all %}
+
+    <tr>
+
+        <td>
+            {{ ligne.produit.nom }}
+        </td>
+
+        <td>
+            {{ ligne.quantite }}
+        </td>
+
+        <td>
+            {{ ligne.prix_unitaire }} FC
+        </td>
+
+        <td>
+            {{ ligne.sous_total }} FC
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% endblock %}

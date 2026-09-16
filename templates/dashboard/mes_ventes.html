@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="page-head">
+    <div>
+        <h1>Mes ventes</h1>
+        <p class="muted">
+            Historique des ventes de votre boutique.
+        </p>
+    </div>
+</section>
+
+<div class="product-grid">
+
+    {% for vente in ventes %}
+
+    <article class="product-card">
+
+        {% if vente.produit.image %}
+            <img src="{{ vente.produit.image.url }}" alt="{{ vente.produit.nom }}">
+        {% endif %}
+
+        <h3>{{ vente.produit.nom }}</h3>
+
+        <p class="muted">
+            Quantité : {{ vente.quantite }}
+        </p>
+
+        <p class="price">
+            {{ vente.montant_total }} FC
+        </p>
+
+        <p class="muted">
+            {{ vente.date_vente|date:"d/m/Y H:i" }}
+        </p>
+
+    </article>
+
+    {% empty %}
+
+    <p class="muted">
+        Aucune vente enregistrée.
+    </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

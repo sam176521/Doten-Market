@@ -1,0 +1,201 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doten Market</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            <h2>Doten Market</h2>
+        </div>
+
+        <div class="search-box">
+            <form action="/produits/recherche/" method="GET" class="form-search" >
+
+                <input type="text"
+                    name="q"
+                    placeholder="Rechercher un produit...">
+
+                <button type="submit">
+                    Recherche
+                </button>
+
+            </form>
+        </div>
+        
+            
+        
+
+        <nav class="nav-links">
+            <a href="#">Accueil</a>
+            <a href="/boutiques/">Boutiques</a>
+            <a href="/comparateur/">Comparateur</a>
+            <a href="/accounts/login/">Connexion</a>
+        </nav>
+
+    </header>
+
+    <!-- HERO SECTION -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+                Comparez les prix.<br>
+                Trouvez les meilleures boutiques.
+            </h1>
+
+            <p>
+                Une marketplace moderne pour acheter intelligemment,
+                comparer les offres et découvrir les meilleures boutiques.
+            </p>
+
+            <div class="hero-buttons">
+                {% if user.is_authenticated %}
+                <a href="/boutiques/"><button type="submit" class="primary-btn">Explorer</button></a>
+                {% endif %}
+
+                {% if user.type_user == "vendeur" %}
+                <a href="/boutiques/creer/"><button class="secondary-btn">Créer ma boutique</button></a>
+                {% endif %}
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CATEGORIES -->
+
+    <section class="categories">
+
+        <h2>Catégories populaires</h2>
+
+        
+
+            <h2>Catégories</h2>
+
+            <div class="category-grid">
+
+            {% for categorie in categories %}
+
+            <div class="category-card">
+
+                {% if categorie.image %}
+
+                <img src="{{ categorie.image.url }}" class="img_categorie">
+
+                {% endif %}
+
+                <h3>{{ categorie.nom }}</h3>
+
+                <a href="/produits/categorie/{{ categorie.id }}/" class="link">
+                    Explorer
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+            </div>
+
+        
+
+    </section>
+
+    <!-- TOP SHOPS -->
+
+    <section class="top-shops">
+        <h2>Boutiques populaires</h2>
+
+<div class="shop-grid">
+
+{% for boutique in boutiques %}
+
+<div class="shop-card">
+
+    {% if boutique.logo %}
+
+    <img src="{{ boutique.logo.url }}"
+         width="150">
+
+    {% endif %}
+
+    <h3>{{ boutique.nom }}</h3>
+
+    <p>{{ boutique.description|truncatewords:12 }}</p>
+    <p>⭐ {{ boutique.note }}/5</p>
+
+    <a href="/boutiques/{{ boutique.id }}/" class="link">
+        Voir boutique
+    </a>
+</div>
+
+{% endfor %}
+
+</div>
+      <a href="/commandes/">Commande</a> 
+    </section>
+
+    <!-- TRENDING PRODUCTS -->
+
+    <section class="products">
+        <h2>Produits récents</h2>
+
+    <div class="product-grid">
+
+    {% for produit in produits %}
+
+        <div class="product-card">
+
+            {% if produit.image %}
+
+            <img src="{{ produit.image.url }}"
+                width="180">
+
+            {% endif %}
+
+            <h3>{{ produit.nom }}</h3>
+
+            <p>{{ produit.prix }} $</p>
+
+            <a href="/produits/{{ produit.id }}/" class="link">
+                Voir produit
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+    </div>
+        
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <h3>Doten Market</h3>
+
+        <p>
+            Marketplace moderne de comparaison de prix et boutiques.
+        </p>
+
+    </footer>
+
+</body>
+</html>

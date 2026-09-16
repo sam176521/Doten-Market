@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="page-head">
+    <div>
+        <h1>Paiement</h1>
+        <p class="muted">
+            Sélectionnez votre moyen de paiement.
+        </p>
+    </div>
+</section>
+
+<section class="dashboard-panel">
+
+
+<h2>
+    Commande #{{ commande.id }}
+</h2>
+
+<p class="price">
+    Total : {{ commande.montant_total }} FC
+</p>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    <label>Méthode de paiement</label>
+
+    <select name="methode">
+
+        <option value="orange">
+            Orange Money
+        </option>
+
+        <option value="airtel">
+            Airtel Money
+        </option>
+
+        <option value="mpesa">
+            M-Pesa
+        </option>
+
+    </select>
+
+    <label>Numéro de téléphone</label>
+
+    <input
+        type="text"
+        name="numero_telephone"
+        required>
+
+    <label>Référence de transaction</label>
+
+    <input
+        type="text"
+        name="reference_transaction">
+
+    <button type="submit">
+        Valider le paiement
+    </button>
+
+</form>
+
+
+</section>
+
+{% endblock %}

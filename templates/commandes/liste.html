@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for commande in commandes %}
+<h1>{{ commande.id }}</h1>
+<h2>{{ commande.produit }}</h2>
+<h3>{{ commande.quantite }}</h3>
+{% endfor %}
+{% endblock %}

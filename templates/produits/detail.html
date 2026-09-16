@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="detail-layout">
+    <div class="detail-medias">
+        {% if produit.image %}
+            <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+        {% endif %}
+    </div>
+
+    <div class="detail-panel">
+        <div class="badge-row">
+            <span class="trust-pill">{{ produit.score_credibilite }}% authentique</span>
+            <span class="rating-pill">{{ produit.note_moyenne|floatformat:1 }}/5</span>
+            <span class="badge">{{ produit.get_etat_display }}</span>
+        </div>
+        <h1>{{ produit.nom }}</h1>
+        <p class="muted">{{ produit.description }}</p>
+        <p class="price">{{ produit.prix }} FC</p>
+
+        <div class="detail-list">
+            <div class="detail-item"><span>Boutique</span><strong>{{ produit.boutique.nom }}</strong></div>
+            <div class="detail-item"><span>Marque</span><strong>{{ produit.marque|default:"Non precisee" }}</strong></div>
+            <div class="detail-item"><span>Qualite</span><strong>{{ produit.qualite|default:"Non precisee" }}</strong></div>
+            <div class="detail-item"><span>Origine</span><strong>{{ produit.origine|default:"Non precisee" }}</strong></div>
+            <div class="detail-item"><span>Garantie</span><strong>{{ produit.garantie|default:"Non precisee" }}</strong></div>
+            <div class="detail-item"><span>Stock</span><strong>{{ produit.stock }}</strong></div>
+        </div>
+
+        {% if produit.details_credibilite %}
+            <p>{{ produit.details_credibilite }}</p>
+        {% endif %}
+
+        <div class="detail-actions">
+            <a href="{% url 'profil_vendeur' produit.boutique.proprietaire.id %}" class="secondary-btn">Voir le vendeur</a>
+            <a href="{% url 'ajouter_avis_produit' produit.id %}" class="link">noté</a>
+            <a href="{% url 'ajouter_panier' produit.id %}" class="add-btn">🛒</a>
+        </div>
+    </div>
+</section>
+
+<section class="sections">
+    <div>
+        <div class="page-head">
+            <h2>Comparaison automatique</h2>
+        </div>
+        <div class="grid">
+            {% for c in comparaisons %}
+            <article class="card">
+                <a href="{% url 'detail_produit' c.id %}">
+                {% if c.image %}<img src="{{ c.image.url }}" alt="{{ c.nom }}">{% endif %}
+                <div class="badge-row">
+                    <span class="badge">{{ c.score_comparaison }}% similaire</span>
+                    <span class="badge">{{ c.boutique.nom }}</span>
+                </div>
+                <h3>{{ c.nom }}</h3>
+                <p class="price">{{ c.prix }} FC</p>
+                <a href="{% url 'detail_produit' c.id %}" class="link">Comparer</a>
+                </a>
+            </article>
+            {% empty %}
+            <p class="muted">Aucun produit proche trouve automatiquement.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div>
+        <div class="page-head">
+            <h2>Avis des utilisateurs</h2>
+        </div>
+        <div class="grid">
+            {% for avis in avis %}
+            <article class="review-card">
+                <div class="badge-row">
+                    <span class="rating-pill">{{ avis.note }}/5</span>
+                    <span class="badge">{{ avis.utilisateur.username }}</span>
+                </div>
+                <p>{{ avis.commentaire }}</p>
+                <small>{{ avis.date_creation }}</small>
+            </article>
+            {% empty %}
+            <p class="muted">Aucun avis pour ce produit.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
