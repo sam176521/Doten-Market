@@ -32,6 +32,8 @@
 
         {% if ligne.produit.image %}
             <img src="{{ ligne.produit.image.url }}" alt="{{ ligne.produit.nom }}">
+        {% else %}
+            <div class="media-placeholder" role="img" aria-label="Produit sans image">{{ ligne.produit.nom|first }}</div>
         {% endif %}
 
         <h3>{{ ligne.produit.nom }}</h3>

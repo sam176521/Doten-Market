@@ -10,10 +10,12 @@
 
 <div class="grid">
     {% for boutique in boutiques %}
-    <a href="/boutiques/{{ boutique.id }}/">
+    <a href="{% url 'detail_boutique' boutique.id %}">
     <article class="card">
         {% if boutique.logo %}
             <img src="{{ boutique.logo.url }}" alt="{{ boutique.nom }}">
+        {% else %}
+            <div class="media-placeholder" role="img" aria-label="Boutique sans logo">{{ boutique.nom|first }}</div>
         {% endif %}
         <div class="badge-row">
             <span class="rating-pill">{{ boutique.note_moyenne|floatformat:1 }}/5</span>

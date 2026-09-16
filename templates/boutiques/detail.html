@@ -5,6 +5,8 @@
     <div class="detail-media">
         {% if boutique.logo %}
             <img src="{{ boutique.logo.url }}" alt="{{ boutique.nom }}">
+        {% else %}
+            <div class="media-placeholder" role="img" aria-label="Boutique sans logo">{{ boutique.nom|first }}</div>
         {% endif %}
     </div>
 
@@ -31,17 +33,19 @@
             {% for produit in produits %}
             <article class="product-card">
                 {% if produit.image %}
-                    <a href="/produits/{{ produit.id }}/">
+                    <a href="{% url 'detail_produit' produit.id %}">
                         <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
                     </a>
+                {% else %}
+                    <a href="{% url 'detail_produit' produit.id %}"><div class="media-placeholder" role="img" aria-label="Produit sans image">{{ produit.nom|first }}</div></a>
                 {% endif %}
                 <div class="badge-row">
                     <span class="trust-pill">{{ produit.score_credibilite }}% authentique</span>
                     <span class="badge">{{ produit.get_etat_display }}</span>
                 </div>
-                <h3><a href="/produits/{{ produit.id }}/">{{ produit.nom }}</a></h3>
+                <h3><a href="{% url 'detail_produit' produit.id %}">{{ produit.nom }}</a></h3>
                 <p class="price">{{ produit.prix }} FC</p>
-                <a href="/produits/{{ produit.id }}/" class="plus">Plus de détail</a>
+                <a href="{% url 'detail_produit' produit.id %}" class="plus">Plus de détail</a>
             </article>
             {% empty %}
             <p class="muted">Aucun produit disponible.</p>

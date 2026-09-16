@@ -8,7 +8,7 @@
         <form method="post">
             {% csrf_token %}
             <button type="submit">Supprimer</button>
-            <a href="/dashboard/" class="link">Annuler</a>
+            <a href="{% url 'vendeur_dashboard' %}" class="link">Annuler</a>
         </form>
     </section>
 </div>

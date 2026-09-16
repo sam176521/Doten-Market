@@ -5,6 +5,8 @@
     <div class="detail-medias">
         {% if produit.image %}
             <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+        {% else %}
+            <div class="media-placeholder" role="img" aria-label="Produit sans image">{{ produit.nom|first }}</div>
         {% endif %}
     </div>
 
@@ -51,6 +53,8 @@
                     <a href="{% url 'detail_produit' c.id %}">
                         <img src="{{ c.image.url }}" alt="{{ c.nom }}">
                     </a>
+                {% else %}
+                    <a href="{% url 'detail_produit' c.id %}"><div class="media-placeholder" role="img" aria-label="Produit sans image">{{ c.nom|first }}</div></a>
                 {% endif %}
                 <div class="badge-row">
                     <span class="badge">{{ c.score_comparaison }}% similaire</span>

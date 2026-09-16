@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
 from boutiques.models import Boutique
 
@@ -129,16 +130,15 @@ def ajouter_produit(request):
 
 
 def rechercher_produits(request):
+    """Compatibilite avec l'ancienne URL de recherche.
+
+    La recherche principale et ses filtres sont désormais centralisés dans
+    la vue de la liste des produits.
+    """
     query = request.GET.get('q', '').strip()
-    produits = Produit.objects.none()
-
-    if query:
-        produits = Produit.objects.select_related('boutique', 'categorie').filter(nom__icontains=query)
-
-    return render(request, 'produits/recherche.html', {
-        'produits': produits,
-        'query': query,
-    })
+    params = urlencode({'q': query}) if query else ''
+    destination = reverse('liste_produits')
+    return redirect(f'{destination}?{params}' if params else destination)
 
 
 def produits_par_categorie(request, pk):

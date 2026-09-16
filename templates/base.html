@@ -32,22 +32,22 @@
 
     <nav class="nav-links" id="navLinks">
 
-        <a href="/" class="a" >
+        <a href="{% url 'home' %}" class="a" >
             <i class="fa-solid fa-house"></i>
             Accueil
         </a>
 
-        <a href="/boutiques/" class="a">
+        <a href="{% url 'liste_boutiques' %}" class="a">
             <i class="fa-solid fa-store"></i>
             Boutiques
         </a>
 
-        <a href="/produits/" class="a">
+        <a href="{% url 'liste_produits' %}" class="a">
             <i class="fa-solid fa-box"></i>
             Produits
         </a>
 
-        <a href="/comparateur/" class="a">
+        <a href="{% url 'comparateur' %}" class="a">
             <i class="fa-solid fa-scale-balanced"></i>
             Comparer
         </a>
@@ -86,7 +86,7 @@
         {% if user.is_authenticated %}
             
             {% if user.type_user == "vendeur" %}
-            <a href="/dashboard/" class="link_connexion">
+            <a href="{% url 'vendeur_dashboard' %}" class="link_connexion">
                 <i class="fa-solid fa-chart-line"></i>
                 Dashboard
             </a>
@@ -97,10 +97,10 @@
             </a>
             {% endif %}
 
-            <a href="/accounts/logout/" class="link_connexion">→]</a>
+            <a href="{% url 'logout' %}" class="link_connexion" aria-label="Se déconnecter">Déconnexion</a>
         {% else %}
-            <a href="/accounts/login/" class="link_connexion">Connexion</a>
-            <a href="/accounts/register/" class="link_connexion">Inscription</a>
+            <a href="{% url 'login' %}" class="link_connexion">Connexion</a>
+            <a href="{% url 'register' %}" class="link_connexion">Inscription</a>
         {% endif %}
     </div>
 </header>

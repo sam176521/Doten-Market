@@ -19,6 +19,8 @@
 
         {% if vente.produit.image %}
             <img src="{{ vente.produit.image.url }}" alt="{{ vente.produit.nom }}">
+        {% else %}
+            <div class="media-placeholder" role="img" aria-label="Produit sans image">{{ vente.produit.nom|first }}</div>
         {% endif %}
 
         <h3>{{ vente.produit.nom }}</h3>

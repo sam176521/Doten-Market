@@ -13,6 +13,8 @@
     <article class="product-card">
         {% if produit.image %}
             <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+        {% else %}
+            <div class="media-placeholder" role="img" aria-label="Produit sans image">{{ produit.nom|first }}</div>
         {% endif %}
         <div class="badge-row">
             <span class="trust-pill">{{ produit.score_credibilite }}% confiance</span>

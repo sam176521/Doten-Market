@@ -12,7 +12,7 @@
         </div>
     </div>
     <div>
-        <a href="/produits/ajouter/" class="secondary-btn">Ajouter un produit</a>
+        <a href="{% url 'ajouter_produit' %}" class="secondary-btn">Ajouter un produit</a>
 
         <a href="{% url 'commandes_boutique' %}"class="primary-btn">Commandes</a>
 
@@ -200,6 +200,8 @@ Aucune vente enregistrée.
         <article class="product-card">
             {% if produit.image %}
                 <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+            {% else %}
+                <div class="media-placeholder" role="img" aria-label="Produit sans image">{{ produit.nom|first }}</div>
             {% endif %}
             <div class="badge-row">
                 <span class="trust-pill">{{ produit.score_credibilite }}% authentique</span>

@@ -55,9 +55,11 @@
 
         <article class="product-card">
             {% if produit.image %}
-                <a href="/produits/{{ produit.id }}/">
+                <a href="{% url 'detail_produit' produit.id %}">
                     <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
                 </a>
+            {% else %}
+                <a href="{% url 'detail_produit' produit.id %}"><div class="media-placeholder" role="img" aria-label="Produit sans image">{{ produit.nom|first }}</div></a>
             {% endif %}
 
             <div class="badge-row">
@@ -72,7 +74,7 @@
 
             </div>
 
-            <h3><a href="/produits/{{ produit.id }}/">{{ produit.nom }}</a></h3>
+            <h3><a href="{% url 'detail_produit' produit.id %}">{{ produit.nom }}</a></h3>
 
             
 

@@ -5,6 +5,8 @@
     <div class="detail-medias">
         {% if profil and profil.photo %}
             <img src="{{ profil.photo.url }}" alt="{{ vendeur.username }}">
+        {% else %}
+            <div class="media-placeholder" role="img" aria-label="Profil sans photo">{{ vendeur.username|first }}</div>
         {% endif %}
     </div>
 
@@ -47,7 +49,7 @@
         <div class="product-grid">
             {% for produit in produits %}
             <article class="product-card">
-                {% if produit.image %}<img src="{{ produit.image.url }}" alt="{{ produit.nom }}">{% endif %}
+                {% if produit.image %}<img src="{{ produit.image.url }}" alt="{{ produit.nom }}">{% else %}<div class="media-placeholder" role="img" aria-label="Produit sans image">{{ produit.nom|first }}</div>{% endif %}
                 <div class="badge-row">
                     <span class="trust-pill">{{ produit.score_credibilite }}% confiance</span>
                 </div>

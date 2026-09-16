@@ -6,9 +6,9 @@
         <h1>Compare les prix. Choisis les vendeurs les plus credibles.</h1>
         <p>Doten Market regroupe les boutiques, les avis et les details produit pour acheter plus vite et plus intelligemment.</p>
         <div class="hero-buttons">
-            <a href="/produits/" class="primary-btn">Explorer les produits</a>
+            <a href="{% url 'liste_produits' %}" class="primary-btn">Explorer les produits</a>
             {% if user.is_authenticated and user.type_user == "vendeur" %}
-                <a href="/boutiques/creer/" class="secondary-btn">Creer ma boutique</a>
+                <a href="{% url 'creer_boutique' %}" class="secondary-btn">Creer ma boutique</a>
             {% endif %}
         </div>
     </div>
@@ -25,9 +25,11 @@
         <div class="category-grid">
             {% for categorie in categories %}
             <article class="category-card">
-                <a href="/produits/categorie/{{ categorie.id }}/">
+                <a href="{% url 'categorie' categorie.id %}">
                 {% if categorie.image %}
                     <img src="{{ categorie.image.url }}" alt="{{ categorie.nom }}">
+                {% else %}
+                    <div class="media-placeholder" role="img" aria-label="Catégorie sans image">{{ categorie.nom|first }}</div>
                 {% endif %}
                 <h3>{{ categorie.nom }}</h3>
                 <p class="plus">AVOIR UNE LISTE DEFILLANTE</p>
@@ -49,7 +51,7 @@
         <div class="shop-grid">
             {% for boutique in boutiques %}
             <article class="shop-card">
-                <a href="/boutiques/{{ boutique.id }}/">
+                <a href="{% url 'detail_boutique' boutique.id %}">
                 {% if boutique.logo %}
                     <img src="{{ boutique.logo.url }}" alt="{{ boutique.nom }}">
                 {% endif %}
@@ -73,22 +75,24 @@
             <div>
                 <h2>Produits recents</h2>
             </div>
-            <a href="/comparateur/" class="link">Comparer</a>
+            <a href="{% url 'comparateur' %}" class="link">Comparer</a>
         </div>
         <div class="product-grid">
             {% for produit in produits %}
             <article class="product-card">
                 {% if produit.image %}
-                    <a href="/produits/{{ produit.id }}/">
+                    <a href="{% url 'detail_produit' produit.id %}">
                         <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
                     </a>
+                {% else %}
+                    <a href="{% url 'detail_produit' produit.id %}"><div class="media-placeholder" role="img" aria-label="Produit sans image">{{ produit.nom|first }}</div></a>
                 {% endif %}
                 <div class="badge-row">
                     <span class="trust-pill">{{ produit.score_credibilite }}% authentique</span>
                     <span class="badge">{{ produit.get_etat_display }}</span>
                 </div>
             
-                <h3><a href="/produits/{{ produit.id }}/">{{ produit.nom }}</a></h3>
+                <h3><a href="{% url 'detail_produit' produit.id %}">{{ produit.nom }}</a></h3>
                    
                 <div class="card_down">
                     <p class="price">{{ produit.prix }} FC</p>
@@ -97,7 +101,7 @@
                 </div>
 
                 <div class="card_down">
-                    <p class="plus"><a href="/produits/{{ produit.id }}/">Plus de détail</a></p>
+                    <p class="plus"><a href="{% url 'detail_produit' produit.id %}">Plus de détail</a></p>
                     <p class="muted">{{ produit.boutique.nom }}</p>
                 </div>
             </article>
