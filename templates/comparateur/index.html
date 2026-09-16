@@ -54,9 +54,10 @@
                 
 
         <article class="product-card">
-            <a href="/produits/{{ produit.id }}/">
             {% if produit.image %}
-                <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+                <a href="/produits/{{ produit.id }}/">
+                    <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+                </a>
             {% endif %}
 
             <div class="badge-row">
@@ -71,7 +72,7 @@
 
             </div>
 
-            <h3>{{ produit.nom }}</h3>
+            <h3><a href="/produits/{{ produit.id }}/">{{ produit.nom }}</a></h3>
 
             
 
@@ -88,7 +89,6 @@
                 </a>
 
             </div>
-            </a>
         </article>
 
         {% endfor %}

@@ -9,44 +9,69 @@ from .utils import produits_similaires
 from django.db.models import Q
 from django.core.paginator import Paginator
 from notifications.models import Notification
+from decimal import Decimal, InvalidOperation
+from urllib.parse import urlencode
 
 
 def liste_produits(request):
-    produits = Produit.objects.select_related('boutique', 'categorie').all().order_by('-id')
-
-    query = request.GET.get('q')
-
-    produits = Produit.objects.all().order_by('-id')
+    produits = Produit.objects.select_related('boutique', 'categorie').all()
+    query = request.GET.get('q', '').strip()
+    categorie_id = request.GET.get('categorie', '').strip()
+    etat = request.GET.get('etat', '').strip()
+    prix_min = request.GET.get('prix_min', '').strip()
+    prix_max = request.GET.get('prix_max', '').strip()
+    tri = request.GET.get('tri', '-id').strip()
 
     if query:
-
         produits = produits.filter(
-
             Q(nom__icontains=query) |
-
+            Q(description__icontains=query) |
             Q(marque__icontains=query) |
-
             Q(categorie__nom__icontains=query) |
-
+            Q(categorie__nom__icontains=query) |
             Q(boutique__nom__icontains=query)
-
         ).distinct()
 
-    paginator = Paginator(
-        produits,
-        24
-    )
+    if categorie_id.isdigit():
+        produits = produits.filter(categorie_id=int(categorie_id))
+    if etat in dict(Produit.ETAT_CHOICES):
+        produits = produits.filter(etat=etat)
 
-    page_number = request.GET.get(
-        'page'
-    )
+    try:
+        if prix_min:
+            produits = produits.filter(prix__gte=Decimal(prix_min))
+        if prix_max:
+            produits = produits.filter(prix__lte=Decimal(prix_max))
+    except InvalidOperation:
+        prix_min = ''
+        prix_max = ''
 
-    produits = paginator.get_page(
-        page_number
-    )
+    tri = {
+        '-id': '-id',
+        'prix': 'prix',
+        '-prix': '-prix',
+        'nom': 'nom',
+    }.get(tri, '-id')
+    produits = produits.order_by(tri)
+
+    filtres = request.GET.copy()
+    filtres.pop('page', None)
+    filter_query = urlencode(filtres, doseq=True)
+
+    paginator = Paginator(produits, 24)
+    produits = paginator.get_page(request.GET.get('page'))
 
     return render(request, 'produits/liste.html', {
         'produits': produits,
+        'categories': Categorie.objects.all().order_by('nom'),
+        'etats': Produit.ETAT_CHOICES,
+        'query': query,
+        'categorie_id': categorie_id,
+        'etat': etat,
+        'prix_min': prix_min,
+        'prix_max': prix_max,
+        'tri': tri,
+        'filter_query': filter_query,
         'breadcrumb': [
             ('Accueil', '/'),
             ('Produits', None),

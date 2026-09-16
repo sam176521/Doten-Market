@@ -78,29 +78,28 @@
         <div class="product-grid">
             {% for produit in produits %}
             <article class="product-card">
-                <a href="/produits/{{ produit.id }}/">
                 {% if produit.image %}
-                    <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+                    <a href="/produits/{{ produit.id }}/">
+                        <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+                    </a>
                 {% endif %}
                 <div class="badge-row">
                     <span class="trust-pill">{{ produit.score_credibilite }}% authentique</span>
                     <span class="badge">{{ produit.get_etat_display }}</span>
                 </div>
             
-                <h3>{{ produit.nom }}</h3>
+                <h3><a href="/produits/{{ produit.id }}/">{{ produit.nom }}</a></h3>
                    
                 <div class="card_down">
                     <p class="price">{{ produit.prix }} FC</p>
                     
                     <a href="{% url 'ajouter_panier' produit.id %}" class="add-btn">🛒</a>
                 </div>
-            
+
                 <div class="card_down">
                     <p class="plus"><a href="/produits/{{ produit.id }}/">Plus de détail</a></p>
                     <p class="muted">{{ produit.boutique.nom }}</p>
                 </div>
-                
-                </a>
             </article>
             {% empty %}
             <p class="muted">Aucun produit recent.</p>

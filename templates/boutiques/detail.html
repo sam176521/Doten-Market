@@ -30,18 +30,18 @@
         <div class="product-grid">
             {% for produit in produits %}
             <article class="product-card">
-                <a href="/produits/{{ produit.id }}/">
                 {% if produit.image %}
-                    <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+                    <a href="/produits/{{ produit.id }}/">
+                        <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+                    </a>
                 {% endif %}
                 <div class="badge-row">
                     <span class="trust-pill">{{ produit.score_credibilite }}% authentique</span>
                     <span class="badge">{{ produit.get_etat_display }}</span>
                 </div>
-                <h3>{{ produit.nom }}</h3>
+                <h3><a href="/produits/{{ produit.id }}/">{{ produit.nom }}</a></h3>
                 <p class="price">{{ produit.prix }} FC</p>
                 <a href="/produits/{{ produit.id }}/" class="plus">Plus de détail</a>
-                </a>
             </article>
             {% empty %}
             <p class="muted">Aucun produit disponible.</p>

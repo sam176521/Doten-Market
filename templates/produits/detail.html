@@ -47,16 +47,18 @@
         <div class="grid">
             {% for c in comparaisons %}
             <article class="card">
-                <a href="{% url 'detail_produit' c.id %}">
-                {% if c.image %}<img src="{{ c.image.url }}" alt="{{ c.nom }}">{% endif %}
+                {% if c.image %}
+                    <a href="{% url 'detail_produit' c.id %}">
+                        <img src="{{ c.image.url }}" alt="{{ c.nom }}">
+                    </a>
+                {% endif %}
                 <div class="badge-row">
                     <span class="badge">{{ c.score_comparaison }}% similaire</span>
                     <span class="badge">{{ c.boutique.nom }}</span>
                 </div>
-                <h3>{{ c.nom }}</h3>
+                <h3><a href="{% url 'detail_produit' c.id %}">{{ c.nom }}</a></h3>
                 <p class="price">{{ c.prix }} FC</p>
                 <a href="{% url 'detail_produit' c.id %}" class="link">Comparer</a>
-                </a>
             </article>
             {% empty %}
             <p class="muted">Aucun produit proche trouve automatiquement.</p>
