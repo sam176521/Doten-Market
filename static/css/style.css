@@ -276,7 +276,17 @@ button:hover,
 .form-search {
     display: flex;
     width: 100%;
+    gap: 0;
     margin-bottom: 5.5px;
+}
+
+.form-search input {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.form-search button {
+    flex: 0 0 auto;
 }
 
 .filters-form {
@@ -346,7 +356,8 @@ textarea {
 .category-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.1rem;
+    gap: clamp(1rem, 2vw, 1.5rem);
+    align-items: stretch;
 }
 
 .card,
@@ -368,6 +379,39 @@ textarea {
 .category-card,
 .review-card {
     padding: 1rem;
+}
+
+.card,
+.product-card,
+.shop-card,
+.category-card,
+.review-card {
+    height: 100%;
+}
+
+.product-card,
+.shop-card,
+.category-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.product-card h3,
+.shop-card h3,
+.category-card h3 {
+    margin: 0;
+}
+
+.product-card p,
+.shop-card p,
+.category-card p {
+    margin: 0;
+}
+
+.product-card .card_down:last-child,
+.shop-card .card_down:last-child {
+    margin-top: auto;
 }
 
 .mt-section {
@@ -447,6 +491,7 @@ small,
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 0.75rem;
 }
 .card_body{
     margin: 0.5px;
@@ -520,6 +565,14 @@ small,
     
 }
 
+section.dashboard-panel {
+    margin-bottom: 1.25rem;
+}
+
+section.dashboard-panel:last-child {
+    margin-bottom: 0;
+}
+
 .detail-list {
     display: grid;
     gap: 0.7rem;
@@ -539,6 +592,10 @@ small,
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1rem;
     margin: 1.25rem 0;
+}
+
+.dashboard-grid + .dashboard-grid {
+    margin-top: 1.5rem;
 }
 
 .metric-card {
@@ -574,6 +631,12 @@ small,
 .modal-card form p,
 .form-grid p {
     margin: 0 0 0.9rem;
+}
+
+.modal-card form,
+.form-grid {
+    display: grid;
+    gap: 0.35rem;
 }
 
 .modal-card label,
