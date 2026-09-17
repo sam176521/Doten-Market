@@ -100,7 +100,8 @@
 {% if produit_plus_vendu %}
 
 <p>
-🏆 Produit le plus vendu :
+<i class="fa-solid fa-trophy" aria-hidden="true"></i>
+Produit le plus vendu :
 <strong>
 {{ produit_plus_vendu.produit__nom }}
 </strong>
@@ -132,7 +133,8 @@ Pas encore assez de données pour analyser les ventes.
 {% for produit in produits_rupture %}
 
 <div class="alert">
-⚠ {{ produit.nom }}
+<i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+{{ produit.nom }}
 
 Stock restant :
 <strong>{{ produit.stock }}</strong>

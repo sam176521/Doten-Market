@@ -97,7 +97,9 @@
                 <div class="card_down">
                     <p class="price">{{ produit.prix }} FC</p>
                     
-                    <a href="{% url 'ajouter_panier' produit.id %}" class="add-btn">🛒</a>
+                    <a href="{% url 'ajouter_panier' produit.id %}" class="add-btn" aria-label="Ajouter {{ produit.nom }} au panier">
+                        <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+                    </a>
                 </div>
 
                 <div class="card_down">

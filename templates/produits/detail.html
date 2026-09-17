@@ -36,7 +36,9 @@
         <div class="detail-actions">
             <a href="{% url 'profil_vendeur' produit.boutique.proprietaire.id %}" class="secondary-btn">Voir le vendeur</a>
             <a href="{% url 'ajouter_avis_produit' produit.id %}" class="link">noté</a>
-            <a href="{% url 'ajouter_panier' produit.id %}" class="add-btn">🛒</a>
+            <a href="{% url 'ajouter_panier' produit.id %}" class="add-btn" aria-label="Ajouter {{ produit.nom }} au panier">
+                <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+            </a>
         </div>
     </div>
 </section>
