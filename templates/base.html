@@ -30,7 +30,7 @@
         <span></span>
     </button>
 
-    <nav class="nav-links" id="navLinks">
+    <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
 
         <a href="{% url 'home' %}" class="a" >
             <i class="fa-solid fa-house"></i>
@@ -80,29 +80,29 @@
 
         {% endif %}
 
-    </nav>
+        <div class="bouton_con_log">
+            {% if user.is_authenticated %}
+                {% if user.type_user == "vendeur" %}
+                <a href="{% url 'vendeur_dashboard' %}" class="link_connexion">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Dashboard
+                </a>
 
-    <div class="bouton_con_log">
-        {% if user.is_authenticated %}
-            
-            {% if user.type_user == "vendeur" %}
-            <a href="{% url 'vendeur_dashboard' %}" class="link_connexion">
-                <i class="fa-solid fa-chart-line"></i>
-                Dashboard
-            </a>
-        
-            <a href="{% url 'mes_ventes' %}" class="link_connexion">
-                <i class="fa-solid fa-money-bill-trend-up"></i>
-                Ventes
-            </a>
+                <a href="{% url 'mes_ventes' %}" class="link_connexion">
+                    <i class="fa-solid fa-money-bill-trend-up"></i>
+                    Ventes
+                </a>
+                {% endif %}
+
+                <a href="{% url 'logout' %}" class="link_connexion" aria-label="Se déconnecter">
+                    Déconnexion
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" class="link_connexion">Connexion</a>
+                <a href="{% url 'register' %}" class="link_connexion">Inscription</a>
             {% endif %}
-
-            <a href="{% url 'logout' %}" class="link_connexion" aria-label="Se déconnecter">Déconnexion</a>
-        {% else %}
-            <a href="{% url 'login' %}" class="link_connexion">Connexion</a>
-            <a href="{% url 'register' %}" class="link_connexion">Inscription</a>
-        {% endif %}
-    </div>
+        </div>
+    </nav>
 </header>
 
 <main class="container">
