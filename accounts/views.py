@@ -82,9 +82,9 @@ def creer_admin(request):
 
     if not User.objects.filter(username="admin").exists():
         User.objects.create_superuser(
-            username="doten_admin",
+            username="admin",
             email="naelnays@gmail.com",
-            password="chlerlabullelabubulelabradingdong"
+            password="doten_market12345"
         )
         return HttpResponse("Admin créé")
 
