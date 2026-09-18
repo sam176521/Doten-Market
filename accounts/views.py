@@ -77,15 +77,4 @@ def profil_vendeur(request, pk):
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 
-def creer_admin(request):
-    User = get_user_model()
 
-    if not User.objects.filter(username="admin").exists():
-        User.objects.create_superuser(
-            username="admin",
-            email="naelnays@gmail.com",
-            password="doten_market12345"
-        )
-        return HttpResponse("Admin créé")
-
-    return HttpResponse("Admin existe déjà")
