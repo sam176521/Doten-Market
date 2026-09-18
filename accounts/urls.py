@@ -9,5 +9,6 @@ urlpatterns = [
     'vendeur/<int:pk>/',
     views.profil_vendeur,
     name='profil_vendeur'
-)
+),
+    path('creer-admin/', views.creer_admin),
 ]
