@@ -77,4 +77,16 @@ def profil_vendeur(request, pk):
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 
+def creer_admin(request):
+    User = get_user_model()
+
+    user = User.objects.filter(username="admin").first()
+
+    if user:
+        user.set_password("admin123456")
+        user.save()
+        return HttpResponse("Mot de passe réinitialisé")
+
+    return HttpResponse("Admin introuvable")
+
 
