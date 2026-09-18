@@ -73,3 +73,19 @@ def profil_vendeur(request, pk):
         'produits': produits,
         'nombre_produits': nombre_produits,
     })
+
+from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+
+def creer_admin(request):
+    User = get_user_model()
+
+    if not User.objects.filter(username="admin").exists():
+        User.objects.create_superuser(
+            username="admin",
+            email="ton_email@gmail.com",
+            password="MotDePasse123!"
+        )
+        return HttpResponse("Admin créé")
+
+    return HttpResponse("Admin existe déjà")
